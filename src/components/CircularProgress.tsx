@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import Svg, { Circle, Defs, Path, Text as SvgText, TextPath } from 'react-native-svg';
 
 interface CircularProgressProps {
@@ -38,9 +38,15 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ consumed, goal }) =
             <Path id="curve" d={pathData} fill="none" />
           </Defs>
           
-          {/* Curved percentage text */}
+          {/* Curved percentage text - Platform-specific offsets for perfect centering */}
           <SvgText fill="#333" fontSize={11} fontWeight="600">
-            <TextPath href="#curve" startOffset="50%" textAnchor="middle">
+            <TextPath 
+              href="#curve" 
+              {...Platform.select({
+                ios: { startOffset: "24%", textAnchor: "start" },
+                android: { startOffset: "50%", textAnchor: "middle" }
+              })}
+            >
               {labelPercentage}% of daily goal
             </TextPath>
           </SvgText>
