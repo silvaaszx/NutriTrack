@@ -44,7 +44,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ consumed, goal }) =
               href="#curve" 
               {...Platform.select({
                 ios: { startOffset: "24%", textAnchor: "start" },
-                android: { startOffset: "50%", textAnchor: "middle" }
+                android: { startOffset: "24%", textAnchor: "start" }
               })}
             >
               {labelPercentage}% of daily goal

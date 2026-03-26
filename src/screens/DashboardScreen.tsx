@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   dateContainer: {
     position: 'absolute',
-    top: Platform.OS === 'android' ? 10 : 0, // Pushed higher up to sit under native clock
+    top: Platform.OS === 'android' ? 38 : 10, // Pushed further down to avoid overlap with system clock/status bar
     left: 20,
     zIndex: 10,
   },
