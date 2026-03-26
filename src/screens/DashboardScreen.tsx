@@ -40,58 +40,61 @@ const DashboardScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor="#E8F5E9" />
+    <>
+      <SafeAreaView style={{ flex: 0, backgroundColor: '#E8F5E9' }} />
+      <SafeAreaView style={styles.safeAreaBottom}>
+        <StatusBar barStyle="dark-content" backgroundColor="#E8F5E9" />
 
-      {/* Container principal */}
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.topSection}>
-            {/* Ajuste fino: Adicionado a hora para ficar igual ao mockup */}
-            <View style={styles.dateContainer}>
-              <Text style={styles.dateText}>SUN, FEB 1</Text>
+        {/* Container principal */}
+        <View style={styles.container}>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.topSection}>
+              {/* Ajuste fino: Adicionado a hora para ficar igual ao mockup */}
+              <View style={styles.dateContainer}>
+                <Text style={styles.dateText}>SUN, FEB 1</Text>
+              </View>
+
+              {/* Header */}
+              <View style={styles.header}>
+                <Text style={styles.appName}>
+                  NutriTrack{' '}
+                  <MaterialCommunityIcons name="leaf" size={24} color="#4CAF50" />
+                </Text>
+              </View>
+
+              {/* Aqui é onde a mágica (e os bugs atuais) acontecem! */}
+              <NutrientSummary progress={dailyProgress} />
+
+              <TabNavigation 
+                tabs={tabs} 
+                activeTab={activeTab} 
+                onTabPress={setActiveTab} 
+              />
             </View>
 
-            {/* Header */}
-            <View style={styles.header}>
-              <Text style={styles.appName}>
-                NutriTrack{' '}
-                <MaterialCommunityIcons name="leaf" size={24} color="#4CAF50" />
-              </Text>
+            {renderContent()}
+          </ScrollView>
+
+          {/* Botão flutuante ajustado */}
+          {activeTab === 'TODAY' && (
+            <View style={styles.bottomCtaContainer}>
+              <LogFoodButton />
             </View>
-
-            {/* Aqui é onde a mágica (e os bugs atuais) acontecem! */}
-            <NutrientSummary progress={dailyProgress} />
-
-            <TabNavigation 
-              tabs={tabs} 
-              activeTab={activeTab} 
-              onTabPress={setActiveTab} 
-            />
-          </View>
-
-          {renderContent()}
-        </ScrollView>
-
-        {/* Botão flutuante ajustado */}
-        {activeTab === 'TODAY' && (
-          <View style={styles.bottomCtaContainer}>
-            <LogFoodButton />
-          </View>
-        )}
-      </View>
-    </SafeAreaView>
+          )}
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  safeAreaBottom: {
     flex: 1,
-    backgroundColor: '#E8F5E9', // Cor verde do topo
+    backgroundColor: '#F5F5F5', // Cor cinza para a parte de baixo (esconde o verde no bottom safe area)
   },
   container: {
     flex: 1,
