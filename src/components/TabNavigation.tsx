@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E8E8E8', // Light gray divider like mock
     paddingBottom: 0,
     paddingHorizontal: 8,
+    overflow: 'visible', // Ensure indicator isn't clipped on Android
   },
   tab: {
     paddingVertical: 14,

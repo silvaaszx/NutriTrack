@@ -39,8 +39,8 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ consumed, goal }) =
           </Defs>
           
           {/* Curved percentage text */}
-          <SvgText fill="#333" fontSize="11" fontWeight="600">
-            <TextPath href="#curve" startOffset="24%">
+          <SvgText fill="#333" fontSize={11} fontWeight="600">
+            <TextPath href="#curve" startOffset="50%" textAnchor="middle">
               {labelPercentage}% of daily goal
             </TextPath>
           </SvgText>
@@ -65,7 +65,9 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ consumed, goal }) =
             strokeDasharray={`${visualFill} ${circumference}`}
             strokeDashoffset={0}
             strokeLinecap="round"
-            transform={`rotate(-90 ${cx} ${cy})`}
+            rotation={-90}
+            originX={cx}
+            originY={cy}
           />
         </Svg>
 
