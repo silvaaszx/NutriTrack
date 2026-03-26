@@ -4,30 +4,34 @@ import { TabItem } from '../types';
 
 interface TabNavigationProps {
   tabs: TabItem[];
+  activeTab?: string;
   onTabPress?: (label: string) => void;
 }
 
 /**
  * Horizontal tab bar with an active indicator (green underline).
  */
-const TabNavigation: React.FC<TabNavigationProps> = ({ tabs, onTabPress }) => {
+const TabNavigation: React.FC<TabNavigationProps> = ({ tabs, activeTab, onTabPress }) => {
   return (
     <View style={styles.container}>
-      {tabs.map((tab) => (
-        <TouchableOpacity
-          key={tab.label}
-          style={styles.tab}
-          onPress={() => onTabPress?.(tab.label)}
-          activeOpacity={0.7}
-        >
-          <View style={styles.tabContent}>
-            <Text style={[styles.tabText, tab.isActive && styles.activeTabText]}>
-              {tab.label}
-            </Text>
-            {tab.isActive && <View style={styles.activeIndicator} />}
-          </View>
-        </TouchableOpacity>
-      ))}
+      {tabs.map((tab) => {
+        const isCurrentActive = activeTab ? activeTab === tab.label : tab.isActive;
+        return (
+          <TouchableOpacity
+            key={tab.label}
+            style={styles.tab}
+            onPress={() => onTabPress?.(tab.label)}
+            activeOpacity={0.7}
+          >
+            <View style={styles.tabContent}>
+              <Text style={[styles.tabText, isCurrentActive && styles.activeTabText]}>
+                {tab.label}
+              </Text>
+              {isCurrentActive && <View style={styles.activeIndicator} />}
+            </View>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native';
 import { dailyProgress, meals, tabs } from '../data/mockData';
 import NutrientSummary from '../components/NutrientSummary';
@@ -6,10 +6,39 @@ import TabNavigation from '../components/TabNavigation';
 import MealCard from '../components/MealCard';
 import AddMealButton from '../components/AddMealButton';
 import LogFoodButton from '../components/LogFoodButton';
+import HistoryView from '../components/HistoryView';
+import FoodsView from '../components/FoodsView';
+import SettingsView from '../components/SettingsView';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const DashboardScreen: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('TODAY');
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'HISTORY':
+        return <HistoryView />;
+      case 'FOODS':
+        return <FoodsView />;
+      case 'SETTINGS':
+        return <SettingsView />;
+      case 'TODAY':
+      default:
+        return (
+          <View style={styles.mealsSection}>
+            <Text style={styles.sectionTitle}>MEALS</Text>
+
+            {meals.map((meal) => (
+              <MealCard key={meal.id} meal={meal} />
+            ))}
+
+            <AddMealButton />
+          </View>
+        );
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#E8F5E9" />
@@ -38,24 +67,22 @@ const DashboardScreen: React.FC = () => {
             {/* Aqui é onde a mágica (e os bugs atuais) acontecem! */}
             <NutrientSummary progress={dailyProgress} />
 
-            <TabNavigation tabs={tabs} />
+            <TabNavigation 
+              tabs={tabs} 
+              activeTab={activeTab} 
+              onTabPress={setActiveTab} 
+            />
           </View>
 
-          <View style={styles.mealsSection}>
-            <Text style={styles.sectionTitle}>MEALS</Text>
-
-            {meals.map((meal) => (
-              <MealCard key={meal.id} meal={meal} />
-            ))}
-
-            <AddMealButton />
-          </View>
+          {renderContent()}
         </ScrollView>
 
         {/* Botão flutuante ajustado */}
-        <View style={styles.bottomCtaContainer}>
-          <LogFoodButton />
-        </View>
+        {activeTab === 'TODAY' && (
+          <View style={styles.bottomCtaContainer}>
+            <LogFoodButton />
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
